@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora IMC</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+        #background-image {
+            position: absolute;
+            top: 0;
+            left: 48px;
+            width: 91%;
+            height: 83%;
+            background-image: url('./image.jpg'); /* Cargar la imagen de fondo */
+            background-size: cover; /* Ajustar la imagen al tamaño del contenedor */
+            background-repeat: round; /* Evitar la repetición de la imagen */
+            z-index: 1; /* Asegura que la imagen esté detrás del canvas */
+        }
+        #imcChart {
+            position: relative; /* Permitir que el canvas esté sobre la imagen */
+            z-index: 2; /* Asegura que el canvas esté encima de la imagen */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de IMC</h1>
+        <form id="imcForm">
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" required>
+            
+            <label for="talla">Talla (metros):</label>
+            <input type="number" step="0.01" id="talla" required>
+            
+            <label for="semanasGestacion">Semanas de Gestación:</label>
+            <input type="number" id="semanasGestacion" required>
+            
+            <button type="submit">Calcular IMC</button>
+        </form>
+
+        <h2>Gráfica del IMC</h2>
+
+        <div id="chart-container">
+            <div id="background-image"></div> <!-- Contenedor de la imagen de fondo -->
+            <canvas id="imcChart"></canvas>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
