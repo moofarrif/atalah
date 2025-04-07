@@ -65,11 +65,13 @@ function actualizarGrafica(imc, semana) {
 form.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const peso = parseFloat(pesoInput.value);
-    const talla = parseFloat(tallaInput.value);
+    // Reemplazar la coma por un punto en el peso y la talla para convertirlos a formato numérico válido
+    const peso = parseFloat(pesoInput.value.replace(',', '.'));
+    const talla = parseFloat(tallaInput.value.replace(',', '.'));
     const semanasGestacion = parseInt(semanasGestacionInput.value);
 
-    if (peso > 0 && talla > 0 && semanasGestacion >= 10 && semanasGestacion <= 40) {
+    // Validar que los valores convertidos sean números válidos
+    if (!isNaN(peso) && peso > 0 && !isNaN(talla) && talla > 0 && semanasGestacion >= 10 && semanasGestacion <= 40) {
         const imc = calcularIMC(peso, talla);
         actualizarGrafica(imc, semanasGestacion);
     } else {
