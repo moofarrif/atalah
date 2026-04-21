@@ -160,6 +160,18 @@ function obtenerDiagnostico(imc, semana) {
     return { texto: 'Obesidad', color: '#d45500', bg: '#fff3ec' };
 }
 
+// ── Filtro teclado campos decimales ───────────────────────────────────────────
+function soloDecimal(e) {
+    const CONTROL = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Home','End'];
+    if (CONTROL.includes(e.key)) return;
+    if (e.ctrlKey || e.metaKey) return; // copiar/pegar/seleccionar
+    if (!/[\d.,]/.test(e.key)) { e.preventDefault(); return; }
+    // solo un separador por campo
+    if ((e.key === '.' || e.key === ',') && /[.,]/.test(e.target.value)) {
+        e.preventDefault();
+    }
+}
+
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const form                = document.getElementById('imcForm');
 const pesoInput           = document.getElementById('peso');
@@ -170,6 +182,9 @@ const resultadoDiv        = document.getElementById('resultado');
 const imcResultadoSpan    = document.getElementById('imcResultado');
 const semanasResultadoSpan = document.getElementById('semanasResultado');
 const diagnosticoSpan     = document.getElementById('diagnostico');
+
+pesoInput.addEventListener('keydown', soloDecimal);
+tallaInput.addEventListener('keydown', soloDecimal);
 
 // FUR: máximo = hoy (no permitir fechas futuras)
 furInput.max = new Date().toISOString().split('T')[0];
@@ -193,8 +208,8 @@ furInput.addEventListener('change', function () {
 form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const peso   = parseFloat(pesoInput.value.replace(',', '.'));
-    const talla  = parseFloat(tallaInput.value.replace(',', '.'));
+    const peso   = parseFloat(pesoInput.value.replace(/,/g, '.'));
+    const talla  = parseFloat(tallaInput.value.replace(/,/g, '.'));
     const semana = parseFloat(semanasInput.value);
 
     if (isNaN(peso) || peso <= 0 || isNaN(talla) || talla <= 0) {
